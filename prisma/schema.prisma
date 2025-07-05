@@ -1,15 +1,115 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file:./dev.db"
+}
+
+model Elemento {
+  id    Int    @id @default(autoincrement())
+  nome  String @unique
+  monstrosElementos MonstroElemento[]
+	armas Arma[]
+}
+
+model Monstro {
+  id    Int    @id @default(autoincrement())
+  nome  String @unique
+  monstrosElementos MonstroElemento[]
+  conjuntos Conjunto[]
+	armas Arma[]
+}
+
+model MonstroElemento {
+  monstroId   Int
+  elementoId  Int
+  tipo        TipoMonstroElemento
+  monstro     Monstro   @relation(fields: [monstroId], references: [id])
+  elemento    Elemento  @relation(fields: [elementoId], references: [id])
+
+  @@id([monstroId, elementoId])
+}
+
+model Conjunto {
+	id    Int    @id @default(autoincrement())
+	nome  String @unique
+	monstroId Int
+	monstro Monstro @relation(fields: [monstroId], references: [id])
+	pecas Peca[]
+}
+
+model Peca {
+	id    Int    @id @default(autoincrement())
+	nome  String @unique
+	tipo TipoItem
+	conjuntoId Int
+	conjunto Conjunto @relation(fields: [conjuntoId], references: [id])
+	pecaHabilidades PecaHabilidade[]
+}
+
+model Habilidade {
+	id    Int    @id @default(autoincrement())
+	nome  String @unique
+	pecaHabilidades PecaHabilidade[]
+	armaHabilidades ArmaHabilidade[]
+}
+
+model PecaHabilidade {
+	pecaId Int
+	habilidadeId Int
+	peca Peca @relation(fields: [pecaId], references: [id])
+	habilidade Habilidade @relation(fields: [habilidadeId], references: [id])
+
+	@@id([pecaId, habilidadeId])
+}
+
+model Arma {
+	id    Int    @id @default(autoincrement())
+	nome  String @unique
+	tipoArma TipoArma
+	elementoId Int
+	elemento Elemento @relation(fields: [elementoId], references: [id])
+	monstroId Int
+	monstro Monstro @relation(fields: [monstroId], references: [id])
+	armaHabilidades ArmaHabilidade[]
+}
+
+model ArmaHabilidade {
+	armaId Int
+	habilidadeId Int
+	arma Arma @relation(fields: [armaId], references: [id])
+	habilidade Habilidade @relation(fields: [habilidadeId], references: [id])
+
+	@@id([armaId, habilidadeId])
+}
+
+enum TipoMonstroElemento {
+  PRINCIPAL
+  FRAQUEZA
+}
+
+enum TipoItem {
+	ELMO
+	ARMADURA
+	AVANCABRACOS
+	CINTURAO
+	GREVAS
+}
+
+enum TipoArma {
+  ESPADA_ESCUDO
+  DUPLAS_LAMINAS
+  ESPADAO
+  ESPADA_LONGA
+  MARTELO
+  BERRANTE_CACA
+  LANCA
+  LANCARMA
+  TRANSMACHADO
+  LAMINA_DINAMO
+  FUZILARCO_LEVE
+  FUZILARCO_PESADO
+  ARCO
 }
