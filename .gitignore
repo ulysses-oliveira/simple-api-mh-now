@@ -406,5 +406,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-/generated/prisma
+/generated
 .env
+dev.db
