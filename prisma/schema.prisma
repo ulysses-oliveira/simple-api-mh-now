@@ -68,7 +68,8 @@ model PecaHabilidade {
 model Arma {
 	id    Int    @id @default(autoincrement())
 	nome  String @unique
-	tipoArma TipoArma
+	tipoArmaId Int
+	tipoArma TipoArma @relation(fields: [tipoArmaId], references: [id])
 	elementoId Int
 	elemento Elemento @relation(fields: [elementoId], references: [id])
 	monstroId Int
@@ -98,18 +99,9 @@ enum TipoItem {
 	GREVAS
 }
 
-enum TipoArma {
-  ESPADA_ESCUDO
-  DUPLAS_LAMINAS
-  ESPADAO
-  ESPADA_LONGA
-  MARTELO
-  BERRANTE_CACA
-  LANCA
-  LANCARMA
-  TRANSMACHADO
-  LAMINA_DINAMO
-  FUZILARCO_LEVE
-  FUZILARCO_PESADO
-  ARCO
+model TipoArma {
+  id     Int    @id @default(autoincrement())
+  nome   String @unique
+  icone  String
+  armas  Arma[]
 }
