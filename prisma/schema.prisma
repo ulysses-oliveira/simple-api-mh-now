@@ -1,107 +1,107 @@
 generator client {
-  provider = "prisma-client-js"
+	provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+	provider = "sqlite"
+	url      = "file:./dev.db"
 }
 
-model Elemento {
-  id    Int    @id @default(autoincrement())
-  nome  String @unique
-  monstrosElementos MonstroElemento[]
-	armas Arma[]
-}
-
-model Monstro {
-  id    Int    @id @default(autoincrement())
-  nome  String @unique
-  monstrosElementos MonstroElemento[]
-  conjuntos Conjunto[]
-	armas Arma[]
-}
-
-model MonstroElemento {
-  monstroId   Int
-  elementoId  Int
-  tipo        TipoMonstroElemento
-  monstro     Monstro   @relation(fields: [monstroId], references: [id])
-  elemento    Elemento  @relation(fields: [elementoId], references: [id])
-
-  @@id([monstroId, elementoId])
-}
-
-model Conjunto {
+model Element {
 	id    Int    @id @default(autoincrement())
-	nome  String @unique
-	monstroId Int
-	monstro Monstro @relation(fields: [monstroId], references: [id])
-	pecas Peca[]
+	name  String @unique
+	monsterElements MonsterElement[]
+	weapons Weapon[]
 }
 
-model Peca {
+model Monster {
 	id    Int    @id @default(autoincrement())
-	nome  String @unique
-	tipo TipoItem
-	conjuntoId Int
-	conjunto Conjunto @relation(fields: [conjuntoId], references: [id])
-	pecaHabilidades PecaHabilidade[]
+	name  String @unique
+	monsterElements MonsterElement[]
+	sets Set[]
+	weapons Weapon[]
 }
 
-model Habilidade {
+model MonsterElement {
+	monsterId   Int
+	elementId   Int
+	type        MonsterElementType
+	monster     Monster   @relation(fields: [monsterId], references: [id])
+	element     Element   @relation(fields: [elementId], references: [id])
+
+	@@id([monsterId, elementId])
+}
+
+model Set {
 	id    Int    @id @default(autoincrement())
-	nome  String @unique
-	pecaHabilidades PecaHabilidade[]
-	armaHabilidades ArmaHabilidade[]
+	name  String @unique
+	monsterId Int
+	monster Monster @relation(fields: [monsterId], references: [id])
+	pieces Piece[]
 }
 
-model PecaHabilidade {
-	pecaId Int
-	habilidadeId Int
-	peca Peca @relation(fields: [pecaId], references: [id])
-	habilidade Habilidade @relation(fields: [habilidadeId], references: [id])
-
-	@@id([pecaId, habilidadeId])
-}
-
-model Arma {
+model Piece {
 	id    Int    @id @default(autoincrement())
-	nome  String @unique
-	tipoArmaId Int
-	tipoArma TipoArma @relation(fields: [tipoArmaId], references: [id])
-	elementoId Int
-	elemento Elemento @relation(fields: [elementoId], references: [id])
-	monstroId Int
-	monstro Monstro @relation(fields: [monstroId], references: [id])
-	armaHabilidades ArmaHabilidade[]
+	name  String @unique
+	type PieceType
+	setId Int
+	set Set @relation(fields: [setId], references: [id])
+	pieceSkills PieceSkill[]
 }
 
-model ArmaHabilidade {
-	armaId Int
-	habilidadeId Int
-	arma Arma @relation(fields: [armaId], references: [id])
-	habilidade Habilidade @relation(fields: [habilidadeId], references: [id])
-
-	@@id([armaId, habilidadeId])
+model Skill {
+	id    Int    @id @default(autoincrement())
+	name  String @unique
+	pieceSkills PieceSkill[]
+	weaponSkills WeaponSkill[]
 }
 
-enum TipoMonstroElemento {
-  PRINCIPAL
-  FRAQUEZA
+model PieceSkill {
+	pieceId Int
+	skillId Int
+	piece Piece @relation(fields: [pieceId], references: [id])
+	skill Skill @relation(fields: [skillId], references: [id])
+
+	@@id([pieceId, skillId])
 }
 
-enum TipoItem {
-	ELMO
-	ARMADURA
-	AVANCABRACOS
-	CINTURAO
-	GREVAS
+model Weapon {
+	id    Int    @id @default(autoincrement())
+	name  String @unique
+	weaponTypeId Int
+	weaponType WeaponType @relation(fields: [weaponTypeId], references: [id])
+	elementId Int
+	element Element @relation(fields: [elementId], references: [id])
+	monsterId Int
+	monster Monster @relation(fields: [monsterId], references: [id])
+	weaponSkills WeaponSkill[]
 }
 
-model TipoArma {
-  id     Int    @id @default(autoincrement())
-  nome   String @unique
-  icone  String
-  armas  Arma[]
+model WeaponType {
+	id     Int    @id @default(autoincrement())
+	name   String @unique
+	icon   String
+	weapons Weapon[]
+}
+
+model WeaponSkill {
+	weaponId Int
+	skillId Int
+	weapon Weapon @relation(fields: [weaponId], references: [id])
+	skill Skill @relation(fields: [skillId], references: [id])
+
+	@@id([weaponId, skillId])
+}
+
+enum MonsterElementType {
+	MAIN
+	WEAKNESS
+}
+
+enum PieceType {
+	HELMET
+	ARMOR
+	GAUNTLETS
+	BELT
+	GREAVES
 }
