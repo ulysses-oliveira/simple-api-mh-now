@@ -52,6 +52,7 @@ model Piece {
 model Skill {
 	id    Int    @id @default(autoincrement())
 	name  String @unique
+	description String
 	pieceSkills PieceSkill[]
 	weaponSkills WeaponSkill[]
 }
