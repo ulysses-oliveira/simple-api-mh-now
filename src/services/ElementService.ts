@@ -1,6 +1,15 @@
 import { prisma } from "../utils/prisma";
 
 export class ElementsService {
+	async getAllElements() {
+		try {
+			return await prisma.elemento.findMany({});
+		} catch (error) {
+			console.error("Error fetching items:", error);
+			throw error;
+		}
+	}
+
 	async createElement(data: any) {
 		try {
 			return await prisma.elemento.create({
@@ -10,15 +19,6 @@ export class ElementsService {
 			});
 		} catch (error) {
 			console.error("Error creating item:", error);
-			throw error;
-		}
-	}
-
-	async getAllElements() {
-		try {
-			return await prisma.elemento.findMany({});
-		} catch (error) {
-			console.error("Error fetching items:", error);
 			throw error;
 		}
 	}

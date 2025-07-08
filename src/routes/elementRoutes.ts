@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ElementController from '../controller/ElementsController';
+import ElementController from '../controller/ElementController';
 
 const elementRoutes = Router();
 

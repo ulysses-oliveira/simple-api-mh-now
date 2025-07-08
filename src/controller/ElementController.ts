@@ -1,7 +1,17 @@
 import { Request, Response } from 'express';
-import { elementsService } from '../services/ElementsService';
+import { elementsService } from '../services/ElementService';
 
 const ElementController = {
+	getAllElements: async (req: Request, res: Response) => {
+		try {
+			const elements = await elementsService.getAllElements();
+			res.status(200).json(elements);
+		} catch (error) {
+			console.error("Error fetching elements:", error);
+			res.status(500).json({ error: "Internal Server Error" });
+		}
+	},
+
 	createElement: async (req: Request, res: Response) => {
 		try {
 			const data = req.body;
@@ -9,16 +19,6 @@ const ElementController = {
 			res.status(201).json(element);
 		} catch (error) {
 			console.error("Error creating element:", error);
-			res.status(500).json({ error: "Internal Server Error" });
-		}
-	},
-
-	getAllElements: async (req: Request, res: Response) => {
-		try {
-			const elements = await elementsService.getAllElements();
-			res.status(200).json(elements);
-		} catch (error) {
-			console.error("Error fetching elements:", error);
 			res.status(500).json({ error: "Internal Server Error" });
 		}
 	},
