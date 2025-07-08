@@ -1,11 +1,12 @@
 import { prisma } from "../utils/prisma";
 
-export class SkillService {
+export class SkillServices {
 	async createSkill(data: any) {
 		try {
-			return await prisma.habilidade.create({
+			return await prisma.skill.create({
 				data: {
-					nome: data.nome,
+					name: data.name,
+					description: data.description,
 				},
 			})
 		} catch (error) {
@@ -16,7 +17,7 @@ export class SkillService {
 
 	async getAllSkills() {
 		try {
-			return await prisma.habilidade.findMany({});
+			return await prisma.skill.findMany({});
 		} catch (error) {
 			console.error("Error fetching skills:", error);
 			throw error;
@@ -25,10 +26,10 @@ export class SkillService {
 
 	async updateSkill(id: number, data: any) {
 		try {
-			return await prisma.habilidade.update({
+			return await prisma.skill.update({
 				where: { id },
 				data: {
-					nome: data.nome,
+					name: data.name,
 				},
 			});
 		} catch (error) {
@@ -39,7 +40,7 @@ export class SkillService {
 
 	async deleteSkill(id: number) {
 		try {
-			return await prisma.habilidade.delete({
+			return await prisma.skill.delete({
 				where: { id },
 			});
 		} catch (error) {
@@ -49,4 +50,4 @@ export class SkillService {
 	}
 }
 
-export const skillService = new SkillService();
+export const skillServices = new SkillServices();

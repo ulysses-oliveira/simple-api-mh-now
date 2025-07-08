@@ -1,9 +1,9 @@
 import { prisma } from "../utils/prisma";
 
-export class ElementsService {
+export class ElementServices {
 	async getAllElements() {
 		try {
-			return await prisma.elemento.findMany({});
+			return await prisma.element.findMany({});
 		} catch (error) {
 			console.error("Error fetching items:", error);
 			throw error;
@@ -12,9 +12,9 @@ export class ElementsService {
 
 	async createElement(data: any) {
 		try {
-			return await prisma.elemento.create({
+			return await prisma.element.create({
 				data: {
-					nome: data.nome,
+					name: data.name,
 				},
 			});
 		} catch (error) {
@@ -25,10 +25,10 @@ export class ElementsService {
 
 	async updateElement(id: number, data: any) {
 		try {
-			return await prisma.elemento.update({
+			return await prisma.element.update({
 				where: { id },
 				data: {
-					nome: data.nome,
+					name: data.name,
 				},
 			});
 		} catch (error) {
@@ -39,7 +39,7 @@ export class ElementsService {
 
 	async deleteElement(id: number) {
 		try {
-			return await prisma.elemento.delete({
+			return await prisma.element.delete({
 				where: { id },
 			});
 		} catch (error) {
@@ -49,4 +49,4 @@ export class ElementsService {
 	}
 }
 
-export const elementsService = new ElementsService();
+export const elementServices = new ElementServices();

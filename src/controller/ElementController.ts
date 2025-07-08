@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { elementsService } from '../services/ElementService';
+import { elementServices } from '../services/ElementService';
 
 const ElementController = {
 	getAllElements: async (req: Request, res: Response) => {
 		try {
-			const elements = await elementsService.getAllElements();
+			const elements = await elementServices.getAllElements();
 			res.status(200).json(elements);
 		} catch (error) {
 			console.error("Error fetching elements:", error);
@@ -15,7 +15,7 @@ const ElementController = {
 	createElement: async (req: Request, res: Response) => {
 		try {
 			const data = req.body;
-			const element = await elementsService.createElement(data);
+			const element = await elementServices.createElement(data);
 			res.status(201).json(element);
 		} catch (error) {
 			console.error("Error creating element:", error);
@@ -34,7 +34,7 @@ const ElementController = {
 				return;
 			}
 
-			const updatedElement = await elementsService.updateElement(numericId, data);
+			const updatedElement = await elementServices.updateElement(numericId, data);
 			if (!updatedElement) {
 				res.status(404).json({ error: "Element not found" });
 				return;
@@ -55,7 +55,7 @@ const ElementController = {
 				return;
 			}
 
-			const deletedElement = await elementsService.deleteElement(numericId);
+			const deletedElement = await elementServices.deleteElement(numericId);
 			if (!deletedElement) {
 				res.status(404).json({ error: "Element not found" });
 				return;
