@@ -12,6 +12,8 @@ model Element {
 	name  String @unique
 	monsterElements MonsterElement[]
 	weapons Weapon[]
+
+	@@map("elements")
 }
 
 model Monster {
@@ -20,6 +22,8 @@ model Monster {
 	monsterElements MonsterElement[]
 	sets Set[]
 	weapons Weapon[]
+
+	@@map("monsters")
 }
 
 model MonsterElement {
@@ -30,6 +34,7 @@ model MonsterElement {
 	element     Element   @relation(fields: [elementId], references: [id])
 
 	@@id([monsterId, elementId])
+	@@map("monster_elements")
 }
 
 model Set {
@@ -38,6 +43,8 @@ model Set {
 	monsterId Int
 	monster Monster @relation(fields: [monsterId], references: [id])
 	pieces Piece[]
+
+	@@map("sets")
 }
 
 model Piece {
@@ -47,6 +54,8 @@ model Piece {
 	setId Int
 	set Set @relation(fields: [setId], references: [id])
 	pieceSkills PieceSkill[]
+
+	@@map("pieces")
 }
 
 model Skill {
@@ -55,6 +64,8 @@ model Skill {
 	description String
 	pieceSkills PieceSkill[]
 	weaponSkills WeaponSkill[]
+
+	@@map("skills")
 }
 
 model PieceSkill {
@@ -64,6 +75,7 @@ model PieceSkill {
 	skill Skill @relation(fields: [skillId], references: [id])
 
 	@@id([pieceId, skillId])
+	@@map("piece_skills")
 }
 
 model Weapon {
@@ -76,6 +88,8 @@ model Weapon {
 	monsterId Int
 	monster Monster @relation(fields: [monsterId], references: [id])
 	weaponSkills WeaponSkill[]
+
+	@@map("weapons")
 }
 
 model WeaponType {
@@ -83,6 +97,8 @@ model WeaponType {
 	name   String @unique
 	icon   String
 	weapons Weapon[]
+
+	@@map("weapon_types")
 }
 
 model WeaponSkill {
@@ -92,6 +108,8 @@ model WeaponSkill {
 	skill Skill @relation(fields: [skillId], references: [id])
 
 	@@id([weaponId, skillId])
+
+	@@map("weapon_skills")
 }
 
 enum MonsterElementType {
