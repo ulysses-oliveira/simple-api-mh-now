@@ -1,16 +1,16 @@
 import { prisma } from "../utils/prisma";
 
-export class WeaponServices {
- async getAllWeapons() {
+export class WeaponTypeServices {
+ async getAllWeaponTypes() {
 	try {
-		return await prisma.weapon.findMany({});
+		return await prisma.weaponType.findMany({});
 	} catch (error) {
 		console.error("Error fetching weapons:", error);
 		throw error;
 	}
  }
 
- async createWeapon(data: any) {
+ async createWeaponType(data: any) {
 	try {
 		return await prisma.weaponType.create({
 			data: {
@@ -24,7 +24,7 @@ export class WeaponServices {
 	}
  }
 
- async updateWeapon(id: number, data: any) {
+ async updateWeaponType(id: number, data: any) {
 	try {
 		return await prisma.weaponType.update({
 			where: { id },
@@ -39,7 +39,7 @@ export class WeaponServices {
 	}
  }
 
- async deleteWeapon(id: number) {
+ async deleteWeaponType(id: number) {
 	try {
 		return await prisma.weaponType.delete({ where: { id } })
 	} catch (error) {
@@ -49,4 +49,4 @@ export class WeaponServices {
  }
 }
 
-export const weaponServices = new WeaponServices();
+export const weaponServices = new WeaponTypeServices();

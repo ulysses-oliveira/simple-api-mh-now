@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { weaponServices } from "../services/WeaponServices";
+import { weaponServices } from "../services/WeaponTypeServices";
 
-const WeaponController = {
-	getAllWeapons: async (req: Request, res: Response) => {
+const WeaponTypeController = {
+	getAllWeaponTypes: async (req: Request, res: Response) => {
 		try {
-			const weapons = await weaponServices.getAllWeapons();
+			const weapons = await weaponServices.getAllWeaponTypes();
 			res.status(200).json(weapons);
 		} catch (error) {
 			console.error("Error fetching weapons:", error);
@@ -12,10 +12,10 @@ const WeaponController = {
 		}
 	},
 
-	createWeapon: async (req: Request, res: Response) => {
+	createWeaponType: async (req: Request, res: Response) => {
 		try {
 			const data = req.body;
-			const weapon = weaponServices.createWeapon(data);
+			const weapon = weaponServices.createWeaponType(data);
 			res.status(201).json(weapon)
 		} catch (error) {
 			console.error("Error creating weapons:", error);
@@ -23,12 +23,12 @@ const WeaponController = {
 		}
 	},
 
-	putWeapon: async (req: Request, res: Response) => {
+	putWeaponType: async (req: Request, res: Response) => {
 		try {
 			const { id } = req.params;
 			const data = req.body;
 
-			const updatedWeapon = weaponServices.updateWeapon(Number(id), data);
+			const updatedWeapon = weaponServices.updateWeaponType(Number(id), data);
 			if (!updatedWeapon) {
 				res.status(404).json({ error: "Weapon not found" });
 				return;
@@ -40,10 +40,10 @@ const WeaponController = {
 		}
 	},
 
-	deleted: async (req: Request, res: Response) => {
+	deleteWeaponType: async (req: Request, res: Response) => {
 		try {
 			const { id } = req.params;
-			const deletedWeapon = await weaponServices.deleteWeapon(Number(id));
+			const deletedWeapon = await weaponServices.deleteWeaponType(Number(id));
 			if (!deletedWeapon) {
 				res.status(404).json({ error: "Weapon not found" });
 				return;
@@ -56,4 +56,4 @@ const WeaponController = {
 	}
 }
 
-export default WeaponController;
+export default WeaponTypeController;
