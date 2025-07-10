@@ -95,7 +95,7 @@ model Weapon {
 model WeaponType {
 	id     Int    @id @default(autoincrement())
 	name   String @unique
-	icon   String
+	icon   String?
 	weapons Weapon[]
 
 	@@map("weapon_types")
