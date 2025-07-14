@@ -1,126 +1,125 @@
 generator client {
-	provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-	provider = "sqlite"
-	url      = "file:./dev.db"
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model Element {
-	id    Int    @id @default(autoincrement())
-	name  String @unique
-	monsterElements MonsterElement[]
-	weapons Weapon[]
+  id              Int              @id @default(autoincrement())
+  name            String           @unique
+  monsterElements MonsterElement[]
+  weapons         Weapon[]
 
-	@@map("elements")
+  @@map("elements")
 }
 
 model Monster {
-	id    Int    @id @default(autoincrement())
-	name  String @unique
-	monsterElements MonsterElement[]
-	sets Set[]
-	weapons Weapon[]
+  id              Int              @id @default(autoincrement())
+  name            String           @unique
+  monsterElements MonsterElement[]
+  set             Set?             @relation("MonsterSet")
+  weapons         Weapon[]
 
-	@@map("monsters")
+  @@map("monsters")
 }
 
 model MonsterElement {
-	monsterId   Int
-	elementId   Int
-	type        MonsterElementType
-	monster     Monster   @relation(fields: [monsterId], references: [id])
-	element     Element   @relation(fields: [elementId], references: [id])
+  monsterId Int
+  elementId Int
+  type      MonsterElementType
+  monster   Monster            @relation(fields: [monsterId], references: [id])
+  element   Element            @relation(fields: [elementId], references: [id])
 
-	@@id([monsterId, elementId])
-	@@map("monster_elements")
+  @@id([monsterId, elementId])
+  @@map("monster_elements")
 }
 
 model Set {
-	id    Int    @id @default(autoincrement())
-	name  String @unique
-	monsterId Int
-	monster Monster @relation(fields: [monsterId], references: [id])
-	pieces Piece[]
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  monsterId Int     @unique
+  monster   Monster @relation("MonsterSet", fields: [monsterId], references: [id])
+  pieces    Piece[]
 
-	@@map("sets")
+  @@map("sets")
 }
 
 model Piece {
-	id    Int    @id @default(autoincrement())
-	name  String @unique
-	type PieceType
-	setId Int
-	set Set @relation(fields: [setId], references: [id])
-	pieceSkills PieceSkill[]
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  type        PieceType
+  setId       Int
+  set         Set          @relation(fields: [setId], references: [id])
+  pieceSkills PieceSkill[]
 
-	@@map("pieces")
+  @@map("pieces")
 }
 
 model Skill {
-	id    Int    @id @default(autoincrement())
-	name  String @unique
-	description String
-	pieceSkills PieceSkill[]
-	weaponSkills WeaponSkill[]
+  id           Int           @id @default(autoincrement())
+  name         String        @unique
+  description  String
+  pieceSkills  PieceSkill[]
+  weaponSkills WeaponSkill[]
 
-	@@map("skills")
+  @@map("skills")
 }
 
 model PieceSkill {
-	pieceId Int
-	skillId Int
-	piece Piece @relation(fields: [pieceId], references: [id])
-	skill Skill @relation(fields: [skillId], references: [id])
+  pieceId Int
+  skillId Int
+  piece   Piece @relation(fields: [pieceId], references: [id])
+  skill   Skill @relation(fields: [skillId], references: [id])
 
-	@@id([pieceId, skillId])
-	@@map("piece_skills")
+  @@id([pieceId, skillId])
+  @@map("piece_skills")
 }
 
 model Weapon {
-	id    Int    @id @default(autoincrement())
-	name  String @unique
-	weaponTypeId Int
-	weaponType WeaponType @relation(fields: [weaponTypeId], references: [id])
-	elementId Int
-	element Element @relation(fields: [elementId], references: [id])
-	monsterId Int
-	monster Monster @relation(fields: [monsterId], references: [id])
-	weaponSkills WeaponSkill[]
+  id           Int           @id @default(autoincrement())
+  name         String        @unique
+  weaponTypeId Int
+  weaponType   WeaponType    @relation(fields: [weaponTypeId], references: [id])
+  elementId    Int
+  element      Element       @relation(fields: [elementId], references: [id])
+  monsterId    Int
+  monster      Monster       @relation(fields: [monsterId], references: [id])
+  weaponSkills WeaponSkill[]
 
-	@@map("weapons")
+  @@map("weapons")
 }
 
 model WeaponType {
-	id     Int    @id @default(autoincrement())
-	name   String @unique
-	icon   String?
-	weapons Weapon[]
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  icon    String?
+  weapons Weapon[]
 
-	@@map("weapon_types")
+  @@map("weapon_types")
 }
 
 model WeaponSkill {
-	weaponId Int
-	skillId Int
-	weapon Weapon @relation(fields: [weaponId], references: [id])
-	skill Skill @relation(fields: [skillId], references: [id])
+  weaponId Int
+  skillId  Int
+  weapon   Weapon @relation(fields: [weaponId], references: [id])
+  skill    Skill  @relation(fields: [skillId], references: [id])
 
-	@@id([weaponId, skillId])
-
-	@@map("weapon_skills")
+  @@id([weaponId, skillId])
+  @@map("weapon_skills")
 }
 
 enum MonsterElementType {
-	MAIN
-	WEAKNESS
+  MAIN
+  WEAKNESS
 }
 
 enum PieceType {
-	HELMET
-	ARMOR
-	GAUNTLETS
-	BELT
-	GREAVES
+  HELMET
+  ARMOR
+  GAUNTLETS
+  BELT
+  GREAVES
 }
