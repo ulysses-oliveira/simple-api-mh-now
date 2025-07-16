@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { monsterServices } from "../services/MonsterServices";
+import { monsterServices } from "../services/monster.service";
 
 const MonsterController = {
 	getAllMonsters: async (req: Request, res: Response) => {
