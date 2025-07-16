@@ -1,6 +1,15 @@
 import { prisma } from "../utils/prisma";
 
 export class SkillServices {
+	async getAllSkills() {
+		try {
+			return await prisma.skill.findMany({});
+		} catch (error) {
+			console.error("Error fetching skills:", error);
+			throw error;
+		}
+	}
+	
 	async createSkill(data: any) {
 		try {
 			return await prisma.skill.create({
@@ -11,15 +20,6 @@ export class SkillServices {
 			})
 		} catch (error) {
 			console.error("Error creating skill:", error);
-			throw error;
-		}
-	}
-
-	async getAllSkills() {
-		try {
-			return await prisma.skill.findMany({});
-		} catch (error) {
-			console.error("Error fetching skills:", error);
 			throw error;
 		}
 	}

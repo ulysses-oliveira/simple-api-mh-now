@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import elementsRoutes from './elementRoutes';
-import skillRoutes from './skillRoutes';
-import monsterRoutes from './monsterRoutes';
-import weaponTypeRoutes from './weaponTypeRoutes';
+import elementsRoutes from './element.routes';
+import skillRoutes from './skill.routes';
+import monsterRoutes from './monster.routes';
+import weaponTypeRoutes from './weaponType.routes';
+import setRoutes from './set.routes';
 
 const router = Router();
 
@@ -10,5 +11,6 @@ router.use('/elements', elementsRoutes);
 router.use('/skills', skillRoutes);
 router.use('/monsters', monsterRoutes);
 router.use('/types-weapons', weaponTypeRoutes);
+router.use('/monsters', setRoutes);
 
 export default router;

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../utils/prisma";
-import { skillServices } from "../services/SkillServices";
+import { skillServices } from "../services/skill.services";
 
 const SkillController = {
 	getAllSkills: async (req: Request, res: Response) => {

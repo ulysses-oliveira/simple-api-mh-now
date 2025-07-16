@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { elementServices } from '../services/ElementServices';
+import { elementServices } from '../services/element.services';
 
 const ElementController = {
 	getAllElements: async (req: Request, res: Response) => {

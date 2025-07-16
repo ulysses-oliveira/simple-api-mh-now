@@ -1,12 +1,14 @@
 import { Router } from 'express';
-import ElementController from '../controller/ElementController';
+import ElementController from '../controller/element.controller';
 
 const elementRoutes = Router();
 
 elementRoutes
 	.get('/', ElementController.getAllElements)
 	.post('/', ElementController.createElement)
-	.put('/:id', ElementController.putElement)
-	.delete('/:id', ElementController.deleteElement);
+
+elementRoutes.route('/:id')
+	.put(ElementController.putElement)
+	.delete(ElementController.deleteElement);
 
 export default elementRoutes;

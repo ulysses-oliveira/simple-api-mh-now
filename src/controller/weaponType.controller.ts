@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { weaponServices } from "../services/WeaponTypeServices";
+import { weaponServices } from "../services/weaponType.services";
 
 const WeaponTypeController = {
 	getAllWeaponTypes: async (req: Request, res: Response) => {
